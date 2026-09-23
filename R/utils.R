@@ -58,6 +58,7 @@ load_lipidomics_data <- function(file_path,
   all_metadata_cols <- unique(c(metadata_cols, non_numeric_cols))
 
   metadata <- data[, names(data) %in% all_metadata_cols, drop = FALSE]
+  metadata <- .factorize_id_columns(metadata)
   numeric_data <- data[, numeric_cols, drop = FALSE]
 
   for (col in names(numeric_data)) {
@@ -87,6 +88,26 @@ load_lipidomics_data <- function(file_path,
   }
 
   list(data = data, metadata = metadata, numeric_data = numeric_data)
+}
+
+#' Coerce Identifier Metadata Columns to Factors (internal)
+#'
+#' Identifier columns such as \code{Tumour ID} are often stored as integers,
+#' which would otherwise be treated as continuous (e.g. mapped to a colour
+#' gradient). They are categorical labels, so they are converted to factors.
+#'
+#' @param metadata Metadata data frame.
+#' @param id_columns Character vector of identifier column names.
+#' @return \code{metadata} with any present \code{id_columns} as factors.
+#' @noRd
+.factorize_id_columns <- function(metadata,
+                                  id_columns = c("Tumour ID", "Tumor ID")) {
+  for (col in intersect(id_columns, names(metadata))) {
+    if (!is.factor(metadata[[col]])) {
+      metadata[[col]] <- factor(metadata[[col]])
+    }
+  }
+  metadata
 }
 
 # ---------------------------------------------------------------------------

@@ -183,6 +183,28 @@ testthat::test_that("create_pca_plot_with_ellipses works for all ellipse types",
   }
 })
 
+testthat::test_that("PCA and PLS-DA colour numeric IDs with a discrete scale", {
+  d <- make_test_data()
+  norm <- apply_normalizations(d$numeric_data, c("TIC", "Log2"))
+  md <- d$metadata
+  md$`Tumour ID` <- rep_len(seq_len(3), nrow(md)) # integer, as read from CSV
+
+  pca <- perform_pca(norm, md, "Tumour ID")
+  testthat::expect_true(is.factor(pca$pca_data$Group))
+  p <- create_pca_plot_with_ellipses(pca$pca_data, pca$variance_explained)
+  testthat::expect_true(ggplot2::ggplot_build(p)$plot$scales$get_scales("colour")$is_discrete())
+
+  # Also discrete when a user supplies their own data with a numeric Group.
+  own <- pca$pca_data
+  own$Group <- as.integer(as.character(own$Group))
+  p2 <- create_pca_plot_with_ellipses(own, pca$variance_explained)
+  testthat::expect_true(ggplot2::ggplot_build(p2)$plot$scales$get_scales("colour")$is_discrete())
+
+  plsda <- perform_plsda(norm, md, "Tumour ID")
+  p3 <- create_plsda_plot_with_ellipses(plsda$scores_data)
+  testthat::expect_true(ggplot2::ggplot_build(p3)$plot$scales$get_scales("colour")$is_discrete())
+})
+
 testthat::test_that("create_pca_plot_with_ellipses validates pca_data columns", {
   testthat::expect_error(
     create_pca_plot_with_ellipses(data.frame(x = 1), c(50, 30)),

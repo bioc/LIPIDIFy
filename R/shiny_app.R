@@ -1701,8 +1701,14 @@ Methods are applied left-to-right in the order you select them.
   })
   output$data_preview <- DT::renderDataTable({
     shiny::req(values$raw_data)
-    DT::datatable(utils::head(values$raw_data$data),
-      options = list(scrollX = TRUE, pageLength = 5)
+    # Show every sample (not just head()) so the table matches the sample
+    # and group counts reported in the summary above.
+    DT::datatable(values$raw_data$data,
+      options = list(
+        scrollX = TRUE,
+        pageLength = 25,
+        lengthMenu = list(c(10, 25, 50, 100, -1), c("10", "25", "50", "100", "All"))
+      )
     )
   })
   output$classification_table <- DT::renderDataTable({

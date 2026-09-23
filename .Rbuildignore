@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^inputs$
-^data-raw$
 ^.*\.DS_Store$
 ^LICENSE\.md$
 ^\.claude$

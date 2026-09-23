@@ -12,7 +12,7 @@ generate_example_data <- function() {
   # Sample metadata with generic group names
   sample_names <- paste0("Sample_", seq_len(20))
   sample_groups <- rep(c("GroupA", "GroupB", "GroupC", "GroupD"), each = 5)
-  tumor_ids <- rep(seq_len(10), each = 2)
+  tumor_ids <- factor(rep(seq_len(10), each = 2))
   weights <- stats::rnorm(20, mean = 50, sd = 10)
 
   # Lipid features (simulate realistic lipid names and intensities)
@@ -136,6 +136,7 @@ load_lipidomics_data_from_df <- function(data_df, metadata_columns = c("Sample N
 
   # Separate metadata and numeric data
   metadata <- data_df[, names(data_df) %in% all_metadata_cols, drop = FALSE]
+  metadata <- .factorize_id_columns(metadata)
   numeric_data <- data_df[, numeric_cols, drop = FALSE]
 
   # Explicitly coerce each numeric column to numeric

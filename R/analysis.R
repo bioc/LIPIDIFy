@@ -513,7 +513,9 @@ perform_pca <- function(data_matrix, metadata, group_column = "Sample Group") {
     Sample = rownames(data_matrix),
     PC1 = pca_results$ind$coord[, 1],
     PC2 = pca_results$ind$coord[, 2],
-    Group = metadata[[group_column]],
+    # Grouping variables are categorical (including numeric IDs such as
+    # Tumour ID), so always map them to a discrete colour scale.
+    Group = factor(metadata[[group_column]]),
     stringsAsFactors = FALSE
   )
 

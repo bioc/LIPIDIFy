@@ -16,7 +16,9 @@
 #
 # This script is not run as part of the package build; it documents how
 # inst/extdata/ST001359_lipidomics.csv was derived from the public API and
-# is kept for provenance/reproducibility only.
+# is kept for provenance/reproducibility only. Once installed, it is found at
+# system.file("scripts", "prepare_ST001359_lipidomics.R", package = "LIPIDIFy").
+# Run it from the package source root so the output path below resolves.
 
 raw <- jsonlite::fromJSON(
   "https://www.metabolomicsworkbench.org/rest/study/study_id/ST001359/data",

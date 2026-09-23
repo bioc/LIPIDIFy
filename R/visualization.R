@@ -923,6 +923,7 @@ create_pca_plot_with_ellipses <- function(pca_data,
       "columns (e.g. the `$pca_data` element of perform_pca())."
     )
   }
+  pca_data$Group <- factor(pca_data$Group)
   p <- ggplot2::ggplot(
     pca_data,
     ggplot2::aes(x = PC1, y = PC2, color = Group)
@@ -1031,6 +1032,7 @@ create_plsda_plot_with_ellipses <- function(plsda_data,
       "columns (e.g. the `$scores_data` element of perform_plsda())."
     )
   }
+  plsda_data$Group <- factor(plsda_data$Group)
   p <- ggplot2::ggplot(
     plsda_data,
     ggplot2::aes(x = Comp1, y = Comp2, color = Group)

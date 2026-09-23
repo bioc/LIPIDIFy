@@ -143,6 +143,7 @@ testthat::test_that("example data keeps metadata columns out of the lipid select
     testthat::expect_match(output$data_summary, "Samples: 20")
     testthat::expect_match(output$data_summary, "GroupA, GroupB, GroupC, GroupD")
     testthat::expect_true(nzchar(output$data_preview))
+    testthat::expect_true(is.factor(values$raw_data$metadata$`Tumour ID`))
     testthat::expect_true(nzchar(output$classification_table))
     cls_file <- output$download_classification
     testthat::expect_identical(utils::read.csv(cls_file, check.names = FALSE)$Lipid, lipids)

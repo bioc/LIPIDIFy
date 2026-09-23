@@ -1,3 +1,26 @@
+# LIPIDIFy 0.99.7
+
+## Bug fixes
+- `Tumour ID` is now treated as a categorical variable. The loaders
+  (`load_lipidomics_data()`, `load_lipidomics_data_from_df()`) and
+  `generate_example_data()` store it as a factor, so it is no longer read as
+  a number. `perform_pca()` and the PCA/PLS-DA plot functions also convert
+  the grouping variable to a factor. Colouring a PCA by `Tumour ID` (or by any
+  other numeric ID) now uses a discrete colour scale, as PLS-DA already did,
+  instead of a continuous gradient.
+
+## User interface
+- The Data Summary box in the Shiny app now shows the full loaded data table
+  (all samples) instead of only the first six rows from `head()`. This makes
+  the table match the sample and group counts shown above it. The table is
+  paginated at 25 rows, and an "All" page-length option is available.
+
+## Package structure
+- Moved the data preparation script for the bundled ST001359 dataset from
+  `data-raw/` to `inst/scripts/prepare_ST001359_lipidomics.R`, as preferred
+  for Bioconductor packages, and removed the `data-raw/` directory. The
+  vignette now points to the script.
+
 # LIPIDIFy 0.99.6
 
 ## Bug fixes
